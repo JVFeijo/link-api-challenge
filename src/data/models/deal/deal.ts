@@ -17,5 +17,5 @@ export class Deal {
   public value?: number
 
   @prop()
-  public createdAt!: Date
+  public wonAt!: Date
 }
