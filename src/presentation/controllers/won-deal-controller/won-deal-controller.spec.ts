@@ -1,6 +1,6 @@
 import { DealInfo, IAddDeal } from '@/data/usecases/add-deal/add-deal-protocols'
 import { DbError } from '@/infra/db/error/db-error'
-import { badRequest, forbidden, serverError } from '@/presentation/helpers/http-helper'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { WonDealRequest } from '@/presentation/protocols/requests/won-deal-request'
 import { IValidation } from '@/presentation/protocols/validation'
@@ -120,5 +120,11 @@ describe('WonDealController', () => {
     const fakeRequest = mockRequest()
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(forbidden(new Error()))
+  })
+  test('should ok with an empty body on success', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = mockRequest()
+    const response = await sut.handle(fakeRequest)
+    expect(response).toEqual(ok())
   })
 })
