@@ -21,7 +21,21 @@ export class WonDealController implements Controller {
         return badRequest(validationResult.error)
       }
 
-      const addDealResult = await this.addDeal.add(validationResult.result)
+      const {
+        person_name: clientName,
+        title,
+        id: pipedriveId,
+        won_time: wonAt,
+        value
+      } = validationResult.result.data
+
+      const addDealResult = await this.addDeal.add({
+        clientName,
+        title,
+        pipedriveId,
+        wonAt,
+        value
+      })
 
       if (isErr(addDealResult)) {
         if (addDealResult.error instanceof ServerError) {

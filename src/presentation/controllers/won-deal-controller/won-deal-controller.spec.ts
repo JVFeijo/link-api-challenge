@@ -85,7 +85,20 @@ describe('WonDealController', () => {
     const addSpy = jest.spyOn(addDealStub, 'add')
     const fakeRequest = mockRequest()
     await sut.handle(fakeRequest)
-    expect(addSpy).toHaveBeenCalledWith(fakeRequest.body)
+    const {
+      person_name: clientName,
+      title,
+      id: pipedriveId,
+      won_time: wonAt,
+      value
+    } = fakeRequest.body.data
+    expect(addSpy).toHaveBeenCalledWith({
+      title,
+      pipedriveId,
+      wonAt,
+      value,
+      clientName
+    })
   })
   test('should return serverError if addDeal returns an instance of ServerError', async () => {
     const { sut, addDealStub } = makeSut()

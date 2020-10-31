@@ -11,6 +11,9 @@ export class Deal {
   public pipedriveId!: number
 
   @prop()
+  public clientName!: string
+
+  @prop()
   public value?: number
 
   @prop()
