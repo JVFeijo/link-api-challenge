@@ -3,30 +3,14 @@ import { IAddDealRepository } from '@/data/protocols/add-deal-repository'
 import { DbError } from '@/infra/db/error/db-error'
 import { err, Result, success } from '@/utils/types/result'
 import { ObjectId } from 'mongodb'
-import { DealInfo, IAddDeal } from './add-deal-protocols'
-import faker from 'faker'
+import { IAddDeal } from './add-deal-protocols'
 import { AddDeal } from './add-deal'
-import { Nothing } from '@/utils/types/maybe'
+import { mockDeal } from '@/data/tests/models/deal/mockDeal'
+import { mockDealInfo } from '@/data/tests/models/deal/mockDealInfo'
 
 interface SutTypes {
   sut: IAddDeal
   addDealRepositoryStub: IAddDealRepository
-}
-
-const mockDealInfo = (): DealInfo => {
-  return {
-    title: faker.random.word(),
-    pipedriveId: faker.random.number(),
-    clientName: faker.name.firstName(),
-    value: faker.random.number(),
-    wonAt: new Date()
-  }
-}
-
-const mockDeal = (): Deal => {
-  return {
-    ...mockDealInfo()
-  }
 }
 
 const makeAddDealRespositoryStub = (): IAddDealRepository => {
@@ -63,10 +47,12 @@ describe('AddDeal', () => {
     const result = await sut.add(fakeDealInfo)
     expect(result).toEqual(err(new Error()))
   })
-  test('should return Nothing on success', async () => {
-    const { sut } = makeSut()
+  test('should return a deal on success', async () => {
+    const { sut, addDealRepositoryStub } = makeSut()
     const fakeDealInfo = mockDealInfo()
+    const fakeDeal = mockDeal()
+    jest.spyOn(addDealRepositoryStub, 'add').mockResolvedValueOnce(success(fakeDeal))
     const result = await sut.add(fakeDealInfo)
-    expect(result).toEqual(success(Nothing()))
+    expect(result).toEqual(success(fakeDeal))
   })
 })

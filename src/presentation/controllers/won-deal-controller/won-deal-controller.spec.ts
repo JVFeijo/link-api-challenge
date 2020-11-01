@@ -1,12 +1,12 @@
-import { DealInfo, IAddDeal } from '@/data/usecases/add-deal/add-deal-protocols'
+import { IAddDeal } from '@/data/usecases/add-deal/add-deal-protocols'
 import { DbError } from '@/infra/db/error/db-error'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { WonDealRequest } from '@/presentation/protocols/requests/won-deal-request'
 import { IValidation } from '@/presentation/protocols/validation'
 import { ValidationError } from '@/presentation/validation/validation'
-import { Nothing } from '@/utils/types/maybe'
 import { err, Result, success } from '@/utils/types/result'
+import { makeAddDealStub } from '../../tests/usecases/make-add-deal-stub'
 import { WonDealController } from './won-deal-controller'
 
 interface SutTypes {
@@ -36,16 +36,6 @@ const makeValidationStub = (): IValidation<WonDealRequest> => {
   }
 
   return new ValidationStub()
-}
-
-const makeAddDealStub = (): IAddDeal => {
-  class AddDeal implements IAddDeal {
-    async add (info: DealInfo): Promise<Result<Nothing, Error>> {
-      return success(Nothing())
-    }
-  }
-
-  return new AddDeal()
 }
 
 const makeSut = (): SutTypes => {
