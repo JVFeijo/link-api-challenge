@@ -33,12 +33,12 @@ describe('Add Blings Deal', () => {
     const axiosSpy = jest.spyOn(axios, 'request')
     const fakeDeal = mockDeal()
     const queryString = qs.stringify({
-      apiKey: env.blingToken,
       xml: {
         pedido: {
           cliente: fakeDeal.clientName
         }
-      }
+      },
+      apikey: env.blingToken
     })
     await sut(fakeDeal)
     expect(axiosSpy).toHaveBeenCalledWith({

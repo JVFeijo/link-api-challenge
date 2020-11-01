@@ -16,7 +16,7 @@ export function makeAddBlingOrder (
             cliente: deal.clientName
           }
         },
-        apiKey: env.blingToken
+        apikey: env.blingToken
       })
 
       await axios.request({
