@@ -21,13 +21,17 @@ export class WonDealController implements Controller {
         return badRequest(validationResult.error)
       }
 
+      if (request.body.current.status !== 'won') {
+        return ok()
+      }
+
       const {
         person_name: clientName,
         title,
         id: pipedriveId,
         won_time: wonAt,
         value
-      } = validationResult.result.data
+      } = validationResult.result.current
 
       const addDealResult = await this.addDeal.add({
         clientName,

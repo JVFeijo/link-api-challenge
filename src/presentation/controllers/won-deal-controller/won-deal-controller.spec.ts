@@ -17,7 +17,7 @@ interface SutTypes {
 
 const mockWonDealRequest = (): WonDealRequest => {
   return {
-    data: {
+    current: {
       id: 1,
       title: 'Teste',
       person_name: 'some_name',
@@ -70,6 +70,13 @@ describe('WonDealController', () => {
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(badRequest(new ValidationError()))
   })
+  test('should return ok when deal status is different than won', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = mockRequest()
+    fakeRequest.body.current.status = 'lost'
+    const response = await sut.handle(fakeRequest)
+    expect(response).toEqual(ok())
+  })
   test('should call addDeal with the correct values', async () => {
     const { sut, addDealStub } = makeSut()
     const addSpy = jest.spyOn(addDealStub, 'add')
@@ -81,7 +88,7 @@ describe('WonDealController', () => {
       id: pipedriveId,
       won_time: wonAt,
       value
-    } = fakeRequest.body.data
+    } = fakeRequest.body.current
     expect(addSpy).toHaveBeenCalledWith({
       title,
       pipedriveId,

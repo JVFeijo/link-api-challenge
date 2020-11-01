@@ -1,5 +1,5 @@
 export interface WonDealRequest {
-  data: {
+  current: {
     id: number
     title: string
     person_name: string
