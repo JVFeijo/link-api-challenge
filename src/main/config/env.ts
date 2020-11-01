@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 export default {
   mongoUrl: process.env.MONGO_URL || 'mongodb+srv://admin:admin@cluster0.hsyvd.mongodb.net/link-api?retryWrites=true&w=majority',
