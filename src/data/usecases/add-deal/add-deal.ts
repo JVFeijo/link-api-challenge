@@ -1,5 +1,5 @@
+import { Deal } from '@/data/models/deal/deal'
 import { IAddDealRepository } from '@/data/protocols/add-deal-repository'
-import { Nothing } from '@/utils/types/maybe'
 import { err, isErr, Result, success } from '@/utils/types/result'
 import { DealInfo, IAddDeal } from './add-deal-protocols'
 
@@ -8,7 +8,7 @@ export class AddDeal implements IAddDeal {
     private readonly addDealRepository: IAddDealRepository
   ) {}
 
-  async add (dealInfo: DealInfo): Promise<Result<Nothing, Error>> {
+  async add (dealInfo: DealInfo): Promise<Result<Deal, Error>> {
     const addResult = await this.addDealRepository.add({
       ...dealInfo
     })
@@ -17,6 +17,6 @@ export class AddDeal implements IAddDeal {
       return err(addResult.error)
     }
 
-    return success(Nothing())
+    return success(addResult.result)
   }
 }

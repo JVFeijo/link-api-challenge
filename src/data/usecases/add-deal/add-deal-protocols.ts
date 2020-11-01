@@ -1,4 +1,4 @@
-import { Nothing } from '@/utils/types/maybe'
+import { Deal } from '@/data/models/deal/deal'
 import { Result } from '@/utils/types/result'
 
 export interface DealInfo {
@@ -10,5 +10,5 @@ export interface DealInfo {
 }
 
 export interface IAddDeal {
-  add: (pipedriveDealInfo: DealInfo) => Promise<Result<Nothing, Error>>
+  add: (pipedriveDealInfo: DealInfo) => Promise<Result<Deal, Error>>
 }
