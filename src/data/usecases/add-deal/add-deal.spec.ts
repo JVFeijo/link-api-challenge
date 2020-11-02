@@ -1,5 +1,5 @@
 import { Deal } from '@/data/models/deal/deal'
-import { IAddDealRepository } from '@/data/protocols/add-deal-repository'
+import { IAddDealRepository } from '@/data/protocols/deal/add-deal-repository'
 import { DbError } from '@/infra/db/error/db-error'
 import { err, Result, success } from '@/utils/types/result'
 import { ObjectId } from 'mongodb'
