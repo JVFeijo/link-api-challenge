@@ -44,4 +44,22 @@ describe('MongoDealRepository', () => {
       expect(result).toEqual(err(new DbError(new Error())))
     })
   })
+
+  describe('loadTotalByDay()', () => {
+    test('should return an array of TotalByDay objects on success', async () => {
+      const sut = makeSut()
+      await DealModel.insertMany([{ ...mockDeal() }, { ...mockDeal() }, { ...mockDeal() }])
+      const result = await sut.load()
+      expect(result).toEqual(success(expect.arrayContaining([{
+        totalValue: expect.any(Number),
+        day: expect.any(String)
+      }])))
+    })
+    test('should return DbError if MongoDB throws', async () => {
+      const sut = makeSut()
+      jest.spyOn(DealModel, 'aggregate').mockImplementationOnce((input: any) => { throw new Error() })
+      const result = await sut.load()
+      expect(result).toEqual(err(new DbError(new Error())))
+    })
+  })
 })
